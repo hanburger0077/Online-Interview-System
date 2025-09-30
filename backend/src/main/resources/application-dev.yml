@@ -1,0 +1,34 @@
+# 开发环境配置
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/exam_system_dev?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      database: 0
+
+# 阿里云OSS配置
+aliyun:
+  oss:
+    endpoint: https://oss-cn-hangzhou.aliyuncs.com
+    access-key-id: your-access-key-id
+    access-key-secret: your-access-key-secret
+    bucket-name: exam-system-dev
+    
+# JWT配置
+jwt:
+  secret: exam-system-jwt-secret-key-dev
+  expiration: 86400000 # 24小时
+  
+# 系统配置
+system:
+  upload:
+    path: /tmp/uploads/
+  exam:
+    duration: 7200 # 考试时长（秒）
+    auto-submit: true # 自动提交

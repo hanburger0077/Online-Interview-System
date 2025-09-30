@@ -1,0 +1,42 @@
+# 生产环境配置
+spring:
+  datasource:
+    url: jdbc:mysql://your-production-host:3306/exam_system?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+      database: 0
+
+# 阿里云OSS配置
+aliyun:
+  oss:
+    endpoint: ${OSS_ENDPOINT}
+    access-key-id: ${OSS_ACCESS_KEY_ID}
+    access-key-secret: ${OSS_ACCESS_KEY_SECRET}
+    bucket-name: ${OSS_BUCKET_NAME}
+    
+# JWT配置
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000 # 24小时
+  
+# 系统配置
+system:
+  upload:
+    path: ${UPLOAD_PATH}
+  exam:
+    duration: 7200 # 考试时长（秒）
+    auto-submit: true # 自动提交
+    
+# 日志配置
+logging:
+  level:
+    com.exam.system: info
+    org.springframework.security: warn
+  file:
+    name: logs/exam-system.log
