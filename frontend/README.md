@@ -1,7 +1,3 @@
-# 面试系统前端 - 基础设施
-
-基础设施层，提供工程脚手架、HTTP 封装、路由守卫、监控埋点等核心能力。
-
 ## 技术栈
 
 Vue 3.5 + TypeScript + Vite + Pinia + Element Plus + Axios
@@ -92,8 +88,3 @@ npm run build            # 构建
 
 或使用 `nginx.conf.example` / `Dockerfile.example` 配置
 
-## 待实现
-
-应用层团队实现：views/、stores/、types/、components/
-
-详见各目录下的 README.md
