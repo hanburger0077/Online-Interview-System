@@ -66,7 +66,11 @@ export function formatCountdown(seconds: number): string {
 /**
  * 检查时间是否在指定窗口内
  */
-export function isInTimeWindow(start: Date | string, end: Date | string, now = new Date()): boolean {
+export function isInTimeWindow(
+  start: Date | string,
+  end: Date | string,
+  now = new Date()
+): boolean {
   const startTime = new Date(start).getTime()
   const endTime = new Date(end).getTime()
   const nowTime = now.getTime()
@@ -84,4 +88,3 @@ export function canEnterLobby(startTime: Date | string, advanceMinutes = 10): bo
 
   return now >= start - advance && now < start + 3600 * 1000 // 提前10分钟到开始后1小时
 }
-

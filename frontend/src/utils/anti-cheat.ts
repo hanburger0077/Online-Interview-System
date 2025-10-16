@@ -1,7 +1,3 @@
-/**
- * 防作弊工具 - 切屏检测
- */
-
 export interface AntiCheatEvent {
   type: 'TAB_BLUR' | 'WINDOW_BLUR' | 'VISIBILITY_CHANGE'
   timestamp: number
@@ -17,14 +13,14 @@ class AntiCheatGuard {
   private blurCount = 0
   private lastBlurTime = 0
 
-  /**
-   * 启动监控
-   */
+  constructor() {
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
+    this.handleWindowBlur = this.handleWindowBlur.bind(this)
+    this.handleDocumentBlur = this.handleDocumentBlur.bind(this)
+  }
+
   start(sessionId: string, callback?: AntiCheatCallback): void {
-    if (this.isEnabled) {
-      console.warn('AntiCheatGuard is already running')
-      return
-    }
+    if (this.isEnabled) return
 
     this.sessionId = sessionId
     this.isEnabled = true
@@ -34,25 +30,13 @@ class AntiCheatGuard {
       this.callbacks.push(callback)
     }
 
-    // 监听页面可见性变化
     document.addEventListener('visibilitychange', this.handleVisibilityChange)
-
-    // 监听窗口失焦
     window.addEventListener('blur', this.handleWindowBlur)
-
-    // 监听标签页切换
     document.addEventListener('blur', this.handleDocumentBlur, true)
-
-    console.log(`[AntiCheat] 监控已启动，sessionId: ${sessionId}`)
   }
 
-  /**
-   * 停止监控
-   */
   stop(): void {
-    if (!this.isEnabled) {
-      return
-    }
+    if (!this.isEnabled) return
 
     document.removeEventListener('visibilitychange', this.handleVisibilityChange)
     window.removeEventListener('blur', this.handleWindowBlur)
@@ -61,16 +45,10 @@ class AntiCheatGuard {
     this.isEnabled = false
     this.callbacks = []
     this.sessionId = null
-
-    console.log('[AntiCheat] 监控已停止')
   }
 
-  /**
-   * 添加回调
-   */
   onDetect(callback: AntiCheatCallback): () => void {
     this.callbacks.push(callback)
-    // 返回取消订阅函数
     return () => {
       const index = this.callbacks.indexOf(callback)
       if (index > -1) {
@@ -79,9 +57,6 @@ class AntiCheatGuard {
     }
   }
 
-  /**
-   * 获取统计信息
-   */
   getStats() {
     return {
       blurCount: this.blurCount,
@@ -90,10 +65,7 @@ class AntiCheatGuard {
     }
   }
 
-  /**
-   * 处理页面可见性变化
-   */
-  private handleVisibilityChange = (): void => {
+  private handleVisibilityChange(): void {
     if (document.hidden) {
       this.recordEvent({
         type: 'VISIBILITY_CHANGE',
@@ -103,10 +75,7 @@ class AntiCheatGuard {
     }
   }
 
-  /**
-   * 处理窗口失焦
-   */
-  private handleWindowBlur = (): void => {
+  private handleWindowBlur(): void {
     this.recordEvent({
       type: 'WINDOW_BLUR',
       timestamp: Date.now(),
@@ -114,15 +83,9 @@ class AntiCheatGuard {
     })
   }
 
-  /**
-   * 处理文档失焦（捕获阶段）
-   */
-  private handleDocumentBlur = (e: FocusEvent): void => {
-    // 排除输入框失焦
+  private handleDocumentBlur(e: FocusEvent): void {
     const target = e.target as HTMLElement
-    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-      return
-    }
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return
 
     this.recordEvent({
       type: 'TAB_BLUR',
@@ -131,14 +94,10 @@ class AntiCheatGuard {
     })
   }
 
-  /**
-   * 记录事件
-   */
   private recordEvent(event: AntiCheatEvent): void {
     this.blurCount++
     this.lastBlurTime = event.timestamp
 
-    // 通知所有回调
     this.callbacks.forEach(cb => {
       try {
         cb(event)
@@ -149,6 +108,4 @@ class AntiCheatGuard {
   }
 }
 
-// 单例导出
 export const antiCheatGuard = new AntiCheatGuard()
-

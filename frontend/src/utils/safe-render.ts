@@ -45,11 +45,11 @@ const ALLOWED_ATTRS: Record<string, string[]> = {
 
 /**
  * 安全渲染 HTML
- * 
+ *
  * @param html - 原始 HTML 字符串
  * @param options - 配置选项
  * @returns 安全的 HTML 字符串
- * 
+ *
  * @example
  * ```typescript
  * const safeHtml = safeRender('<p>Hello <script>alert("xss")</script></p>')
@@ -92,10 +92,7 @@ export function safeRender(
     }
 
     // 清理属性
-    const allowedAttrsForTag = [
-      ...(allowedAttrs[tagName] || []),
-      ...(allowedAttrs['*'] || []),
-    ]
+    const allowedAttrsForTag = [...(allowedAttrs[tagName] || []), ...(allowedAttrs['*'] || [])]
 
     const attributes = Array.from(element.attributes)
     attributes.forEach(attr => {
@@ -158,7 +155,7 @@ export function safeRender(
 /**
  * 纯文本渲染（最安全）
  * 将所有 HTML 转义
- * 
+ *
  * @example
  * ```typescript
  * const safe = safeText('<script>alert("xss")</script>')
@@ -197,7 +194,7 @@ export function safeMarkdown(markdown: string): string {
 
 /**
  * Vue 指令：v-safe-html
- * 
+ *
  * 使用方式：
  * ```vue
  * <div v-safe-html="htmlContent"></div>
@@ -211,4 +208,3 @@ export const vSafeHtml = {
     el.innerHTML = safeRender(binding.value || '')
   },
 }
-

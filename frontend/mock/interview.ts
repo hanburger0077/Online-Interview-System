@@ -160,4 +160,3 @@ export default [
     },
   },
 ] as MockMethod[]
-

@@ -1,6 +1,6 @@
 /**
  * 监控与埋点系统
- * 
+ *
  * 功能：
  * - 页面访问埋点
  * - 用户行为追踪
@@ -15,12 +15,12 @@ import { appConfig } from '@/config'
  * 埋点事件类型
  */
 export enum TrackEventType {
-  PAGE_VIEW = 'page_view',           // 页面访问
-  CLICK = 'click',                   // 点击事件
-  API_ERROR = 'api_error',           // API 错误
-  JS_ERROR = 'js_error',             // JS 错误
+  PAGE_VIEW = 'page_view', // 页面访问
+  CLICK = 'click', // 点击事件
+  API_ERROR = 'api_error', // API 错误
+  JS_ERROR = 'js_error', // JS 错误
   RESOURCE_ERROR = 'resource_error', // 资源加载错误
-  PERFORMANCE = 'performance',       // 性能数据
+  PERFORMANCE = 'performance', // 性能数据
 }
 
 /**
@@ -263,9 +263,7 @@ class Monitor {
 
     // Promise 未捕获错误
     window.addEventListener('unhandledrejection', event => {
-      const error = event.reason instanceof Error 
-        ? event.reason 
-        : new Error(String(event.reason))
+      const error = event.reason instanceof Error ? event.reason : new Error(String(event.reason))
       this.trackJsError(error, {
         type: 'unhandledrejection',
       })
@@ -364,4 +362,3 @@ export const trackPageView = monitor.trackPageView.bind(monitor)
 export const trackClick = monitor.trackClick.bind(monitor)
 export const trackApiError = monitor.trackApiError.bind(monitor)
 export const trackJsError = monitor.trackJsError.bind(monitor)
-

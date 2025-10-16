@@ -75,4 +75,3 @@ export function generateRandomString(length = 16): string {
   }
   return result
 }
-

@@ -25,20 +25,21 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: '0.0.0.0',
       open: true,
-      proxy: env.VITE_USE_PROXY === 'true'
-        ? {
-            '/api': {
-              target: env.VITE_API_BASE_URL,
-              changeOrigin: true,
-              rewrite: path => path.replace(/^\/api/, ''),
-            },
-            '/ws': {
-              target: env.VITE_WS_BASE_URL,
-              ws: true,
-              changeOrigin: true,
-            },
-          }
-        : undefined,
+      proxy:
+        env.VITE_USE_PROXY === 'true'
+          ? {
+              '/api': {
+                target: env.VITE_API_BASE_URL,
+                changeOrigin: true,
+                rewrite: path => path.replace(/^\/api/, ''),
+              },
+              '/ws': {
+                target: env.VITE_WS_BASE_URL,
+                ws: true,
+                changeOrigin: true,
+              },
+            }
+          : undefined,
     },
 
     build: {
